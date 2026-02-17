@@ -1,2 +1,9 @@
-# clothing-store-db
-Full-cycle database design for an Online Clothing Store
+#Clothing Store Database (PostgreSQL)
+Навчальний проект з проектування бази даних для магазину одягу.
+## Прогрес виконання лабораторних:
+- [x] **Lab 1:** ER-діаграма (Conceptual Design)
+- [ ] **Lab 2:** Створення таблиць SQL (DDL)
+- [ ] **Lab 3:** Робота з даними (OLTP)
+- [ ] **Lab 4:** Аналітика та звіти (OLAP)
+- [ ] **Lab 5:** Нормалізація БД
+- [ ] **Lab 6:** Міграції (Prisma ORM)
