@@ -1,4 +1,5 @@
 #Clothing Store Database (PostgreSQL)
+
 Навчальний проект з проектування бази даних для магазину одягу.
 ## Прогрес виконання лабораторних:
 - [x] **Lab 1:** ER-діаграма (Conceptual Design)
