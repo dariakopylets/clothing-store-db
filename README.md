@@ -1,4 +1,4 @@
-#Clothing Store Database (PostgreSQL)
+# Clothing Store Database (PostgreSQL)
 
 Навчальний проект з проектування бази даних для магазину одягу.
 ## Прогрес виконання лабораторних:
