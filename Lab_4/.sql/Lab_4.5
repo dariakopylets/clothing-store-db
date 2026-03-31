@@ -1,0 +1,17 @@
+-- Багатотаблична агрегація (JOIN + GROUP BY)
+
+-- 1.Знайти загальну суму покупок для кожного клієнта
+SELECT c.first_name, c.surname, SUM(cr.price * cr.quantity) as total_spent
+  FROM client as c
+ JOIN order_ o ON c.client_id = o.client_id
+ JOIN cart cr ON o.order_id = cr.order_id
+GROUP BY c.client_id, c.first_name, c.surname
+ORDER BY total_spent DESC;
+
+-- 2.Порахувати, скільки товарів з кожної категорії було додано в корзину
+SELECT cat.category_name, COUNT(cr.cart_id) as times_in_cart
+  FROM category as cat
+ JOIN products p ON cat.category_id = p.category_id
+ JOIN cart cr ON p.product_id = cr.product_id
+GROUP BY cat.category_id, cat.category_name
+ORDER BY times_in_cart DESC;
