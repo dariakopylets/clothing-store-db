@@ -1,0 +1,21 @@
+-- Запити JOIN (INNER, LEFT, RIGHT, FULL, CROSS)
+
+-- 1.Показати імена клієнтів та дати їхніх замовлень
+SELECT c.first_name as client_name, c.surname as client_surname, o.order_date
+  FROM client as c
+ INNER JOIN order_ o ON c.client_id = o.client_id;
+
+-- 2.Показати всі бренди та назви їхніх товарів
+SELECT b.brand_name, b.country, p.product_name
+  FROM brand as b
+ LEFT JOIN products p ON b.brand_id = p.brand_id;
+
+-- 3.Показати всі товари та назви категорій
+SELECT p.product_name, c.category_name
+  FROM category as c
+ RIGHT JOIN products p ON c.category_id = p.category_id;
+
+-- 4.Створити список "Кожен бренд - кожна категорія"
+SELECT b.brand_name, c.category_name
+  FROM brand as b
+ CROSS JOIN category as c;
