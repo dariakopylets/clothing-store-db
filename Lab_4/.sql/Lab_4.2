@@ -1,0 +1,17 @@
+-- Групування даних (GROUP BY)
+
+-- 1.Групування замовлень за статусами та підрахунок їх кількості
+SELECT order_status, COUNT(order_id) as num_orders
+  FROM order_
+ GROUP BY order_status;
+
+-- 2.Групування товарів за ідентифікатором бренду та підрахунок кількості
+SELECT brand_id, COUNT(product_id) as num_products
+  FROM products
+ GROUP BY brand_id
+ORDER BY num_products DESC;
+
+-- 3.Групування товарів у корзині за розміром
+SELECT size_, COUNT(*) as size_count
+  FROM cart
+ GROUP BY size_;
