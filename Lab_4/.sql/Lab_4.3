@@ -1,0 +1,13 @@
+-- Фільтрування груп (HAVING)
+
+-- 1.Знайти клієнтів, які зробили більше ніж 1 замовлення.
+SELECT client_id, COUNT(*) as orders_made_count
+  FROM order_
+ GROUP BY client_id
+HAVING COUNT(*) > 1;
+
+-- 2.Знайти розміри товарів (size_), які додані в корзину 2 або більше разів.
+SELECT size_, COUNT(*) as size_popularity
+  FROM cart
+ GROUP BY size_
+HAVING COUNT(*) >= 2;
