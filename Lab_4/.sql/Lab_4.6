@@ -1,0 +1,32 @@
+-- Підзапити (SELECT, WHERE, FROM, HAVING)
+
+-- 1.Знайти клієнтів, які замовили "Шовкова спідниця"
+SELECT first_name, surname
+  FROM client
+ WHERE client_id IN ( 
+    SELECT client_id
+    FROM order_
+    WHERE order_id IN (
+        SELECT order_id
+        FROM cart
+        WHERE product_id = (
+            SELECT product_id
+            FROM products
+            WHERE product_name = 'Шовкова спідниця'
+        )
+    )
+);
+
+-- 2.Показати кожного клієнта та загальну кількість його замовлень
+SELECT c.first_name, c.surname,
+    (SELECT COUNT(*) 
+	 FROM order_ as o 
+	 WHERE o.client_id = c.client_id) as total_orders
+FROM client as c;
+
+-- 3.Знайти середню кількість товарів у замовленні
+SELECT AVG(items_in_order) as avg_items_per_order
+FROM ( SELECT order_id, COUNT(*) as items_in_order
+       FROM cart
+       GROUP BY order_id
+) as order_stats;
