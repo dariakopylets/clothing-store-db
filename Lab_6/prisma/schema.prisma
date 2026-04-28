@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model brand {
+  brand_id   Int        @id @default(autoincrement())
+  brand_name String     @db.VarChar(32)
+  country    String     @db.VarChar(32)
+  products   products[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model cart {
+  cart_id    Int      @id @default(autoincrement())
+  product_id Int
+  order_id   Int
+  price      Decimal  @db.Decimal(10, 2)
+  color      String   @db.VarChar(10)
+  size_      String   @db.VarChar(15)
+  quantity   Int
+  order_     order_   @relation(fields: [order_id], references: [order_id], onDelete: NoAction, onUpdate: NoAction)
+  products   products @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model category {
+  category_id   Int        @id @default(autoincrement())
+  category_name String     @db.VarChar(32)
+  products      products[]
+}
+
+model client {
+  client_id    Int      @id @default(autoincrement())
+  first_name   String   @db.VarChar(25)
+  surname      String   @db.VarChar(32)
+  birthday     DateTime @db.Date
+  phone_number String   @db.Char(12)
+  email        String   @unique @db.VarChar(64)
+  address      String   @db.VarChar(128)
+  login        String   @unique @db.VarChar(15)
+  password     String   @db.VarChar(100)
+  order_       order_[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model order_ {
+  order_id            Int          @id @default(autoincrement())
+  client_id           Int
+  order_date          DateTime     @db.Date
+  order_status        order_status
+  price_at_the_moment Decimal      @db.Decimal(10, 2)
+  cart                cart[]
+  client              client       @relation(fields: [client_id], references: [client_id], onDelete: NoAction, onUpdate: NoAction)
+  payment             payment[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model products {
+  product_id   Int      @id @default(autoincrement())
+  product_name String   @db.VarChar(32)
+  price        Decimal  @db.Decimal(10, 2)
+  brand_id     Int
+  category_id  Int
+  is_available Boolean  @default(true)
+  reviews      Review[]
+  cart         cart[]
+  brand        brand    @relation(fields: [brand_id], references: [brand_id], onDelete: NoAction, onUpdate: NoAction)
+  category     category @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model payment {
+  payment_id     Int            @id @default(autoincrement())
+  order_id       Int
+  payment_type   payment_type
+  payment_status payment_status
+  order_         order_         @relation(fields: [order_id], references: [order_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Review {
+  review_id  Int      @id @default(autoincrement())
+  rating     Int
+  comment    String?
+  product_id Int
+  products   products @relation(fields: [product_id], references: [product_id])
+}
+
+enum order_status {
+  Delivered @map("Доставлено")
+  Confirmed @map("Підтверджено")
+  Sent      @map("Відправлено")
+  Received  @map("Отримано")
+  Cancelled @map("Скасовано")
+  Paid      @map("Оплачено")
+  Returned  @map("Повернуто")
+}
+
+enum payment_status {
+  Paid       @map("Оплачено")
+  Unpaid     @map("Не оплачено")
+  Processing @map("В обробці")
+}
+
+enum payment_type {
+  ApplePay
+  GooglePay
+  Cash      @map("Готівкою при отриманні")
+  LiqPay
+  PayPal
+}
